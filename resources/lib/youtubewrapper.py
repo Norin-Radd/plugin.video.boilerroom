@@ -37,7 +37,13 @@ def get_playlists():
 	totalplaylists = len(resp["items"])
 	for playlist in resp["items"]:
 		playlist_id = playlist["id"]
-		thumb = playlist["snippet"]["thumbnails"]["high"]["url"]
+		try:
+			for level in ["high","medium","low"]:
+				if level in playlist["snippet"]["thumbnails"]:
+					thumb = playlist["snippet"]["thumbnails"][level]["url"]
+					break
+		except:
+			thumb = ''
 		label = playlist["snippet"]["title"]
 		addDir('[B]'+label.encode('utf-8')+'[/B]',playlist_id,1,thumb,1,totalplaylists,token='')
 	return
